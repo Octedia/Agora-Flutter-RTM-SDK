@@ -1,24 +1,19 @@
+import 'package:agora_rtm/src/agora_rtm_plugin_platform_interface.dart';
 import 'package:flutter/services.dart';
 
-mixin AgoraRtmPlugin {
-  static const MethodChannel _methodChannel =
-      const MethodChannel("io.agora.rtm");
-
-  static Future<dynamic> _sendMethodMessage(
-      String call, String method, Map? arguments) {
-    return _methodChannel
-        .invokeMethod(method, {"call": call, "params": arguments});
-  }
-
+class AgoraRtmPlugin {
   static Future<dynamic> callMethodForStatic(String name, Map? arguments) {
-    return _sendMethodMessage("static", name, arguments);
+    return AgoraRtmPluginPlatform.instance
+        .sendMethodMessage("static", name, arguments);
   }
 
   static Future<dynamic> callMethodForClient(String name, Map arguments) {
-    return _sendMethodMessage("AgoraRtmClient", name, arguments);
+    return AgoraRtmPluginPlatform.instance
+        .sendMethodMessage("AgoraRtmClient", name, arguments);
   }
 
   static Future<dynamic> callMethodForChannel(String name, Map arguments) {
-    return _sendMethodMessage("AgoraRtmChannel", name, arguments);
+    return AgoraRtmPluginPlatform.instance
+        .sendMethodMessage("AgoraRtmChannel", name, arguments);
   }
 }
